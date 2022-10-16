@@ -1,10 +1,5 @@
-from ast import keyword
 from django.shortcuts import render, redirect, get_object_or_404, reverse
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, HttpResponsePermanentRedirect
-
-from django.forms import ValidationError
-from django.forms.models import model_to_dict
-from django.contrib import messages
 
 import requests
 from django.urls import reverse
@@ -32,6 +27,8 @@ import pandas as pd
 from bs4 import BeautifulSoup
 
 
+# Would have normally declared those in a .env file
+# just not doing it because ut is just an assignment 
 # Config
 api_key = "CxCkNuSCmuelWNslaQhm9G7bq"
 api_key_secret = "gJMNhCM6GoBAeK086LELVSunbdfSo1a02yeR0ehmAKtA8pkUZT"
@@ -70,7 +67,7 @@ class TwitterApiViewset(ViewSet):
         q = request.query_params.get('q', None)
         media = request.query_params.get('media', None)
         
-        # declaring empry list that will collect tweets if there is any
+        # declaring empry list that will collect tweets if there are any
         tweet_list = []
         
         # Number of tweets to retrieve
@@ -83,11 +80,7 @@ class TwitterApiViewset(ViewSet):
             if q:
                 # using tweepy package with methode cursor to get tweets
                 tweets = tweepy.Cursor(api.search_tweets, q=q, include_entities=True, tweet_mode='extended').items(limit)
-                                
-                # for tweet in tweets:
-                    # tweet_list.append(tweet)
-                    # tweet_list.append([tweet.id, tweet.user.screen_name, tweet.full_text])
-                    
+
                 # filling the list with the retrieved tweets 
                 tweet_list.extend(iter(tweets))
              
@@ -97,15 +90,10 @@ class TwitterApiViewset(ViewSet):
                 # using tweepy package with methode cursor to get tweets
                 tweets = tweepy.Cursor(api.search_tweets, q=q, include_entities=False, tweet_mode='extended').items(limit)
                                 
-                # for tweet in tweets:    
-                    # tweet_list.append(tweet)
-                    # tweet_list.append([tweet.id, tweet.user.screen_name, tweet.full_text])
-                    
                 # filling the list with the retrieved tweets 
                 tweet_list.extend(iter(tweets))
                     
             return HttpResponse(
-                # json.dumps(tweet_list),
                 tweet_list,
                 status=status.HTTP_200_OK,
             )
@@ -123,11 +111,10 @@ class TwitterApiViewset(ViewSet):
         
         try:
             if user_id:
-                # using get_user with id 
+                # using get_user with user_id 
                 user = api.get_user(user_id=user_id)
 
             return HttpResponse(
-                # json.dumps(model_to_dict(user)),
                 user,
                 status=status.HTTP_200_OK,
             )
@@ -149,7 +136,9 @@ class TwitterApiViewset(ViewSet):
        
     # ads endpoint definition to scrap ads from a website 
     def ads(self, request, *args, **kwargs):
+        # requesting query parameter
         keyword = request.query_params.get('keyword', None)
+        # declaring empry list that will collect ads if there are any
         ads = []
         
         try:
@@ -161,7 +150,6 @@ class TwitterApiViewset(ViewSet):
             base_url = "https://ci.coinafrique.com"
 
             # URL for the first page
-            # page_1_url = base_url + '/search?category=&keyword='+keyword if keyword else base_url
             page_1_url = f'{base_url}/search?category=&keyword=' + keyword if keyword else base_url
 
             # use requests library to get the response
