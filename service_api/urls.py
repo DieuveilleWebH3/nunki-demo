@@ -43,6 +43,9 @@ urlpatterns = [
 
     # 
     path('search/', TwitterApiViewset.as_view({'get':'search'}), name="search"),
+    
     path('users/user/<user_id>', TwitterApiViewset.as_view({'get':'users'}), name="users"),
+    
+    path('ads/', TwitterApiViewset.as_view({'get':'ads'}), name="ads"),
     
 ]
