@@ -40,4 +40,10 @@ urlpatterns = [
     # url(r'^docs/', schema_view),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 
+
+    # 
+    # path('search/<keyword>/<boolean>', TwitterApiViewset.as_view({'get':'search'}), name="search"),
+    # path('search/q=<keyword>&media=<boolean>', TwitterApiViewset.as_view({'get':'search'}), name="search"),
+    path('search/', TwitterApiViewset.as_view({'get':'search'}), name="search"),
+    
 ]
