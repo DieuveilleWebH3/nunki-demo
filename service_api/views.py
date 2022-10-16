@@ -59,27 +59,27 @@ class CustomRedirect(HttpResponsePermanentRedirect):
     
 class TwitterApiViewset(ViewSet):
     
-    keyword = openapi.Parameter('keyword', in_=openapi.IN_QUERY,
+    q = openapi.Parameter('q', in_=openapi.IN_QUERY,
             description='keyword is the text to search on twitter', type=openapi.TYPE_STRING)
                         
-    boolean = openapi.Parameter('boolean', in_=openapi.IN_QUERY,
+    media = openapi.Parameter('media', in_=openapi.IN_QUERY,
         description='media ', type=openapi.TYPE_BOOLEAN)
 
     @swagger_auto_schema(
-        manual_parameters=[keyword, boolean])
+        manual_parameters=[q, media])
     
     # def search(self, request, keyword, boolean, *args, **kwargs):
     def search(self, request, *args, **kwargs):
-        keyword = request.query_params.get('keyword', None)
-        boolean = request.query_params.get('boolean', None)
+        q = request.query_params.get('q', None)
+        media = request.query_params.get('media', None)
         tweet_list = []
         
         limit = 2 
         # limit = 20
 
         try:
-            if keyword and boolean :
-                tweets = tweepy.Cursor(api.search_tweets, q=keyword, tweet_mode='extended').items(limit)
+            if q and media :
+                tweets = tweepy.Cursor(api.search_tweets, q=q, tweet_mode='extended').items(limit)
                 
                 # print(tweet_list)
                 
