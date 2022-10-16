@@ -74,27 +74,40 @@ class TwitterApiViewset(ViewSet):
         media = request.query_params.get('media', None)
         tweet_list = []
         
-        limit = 2 
+        limit = 1
         # limit = 20
 
         try:
-            if q and media :
-                tweets = tweepy.Cursor(api.search_tweets, q=q, tweet_mode='extended').items(limit)
+            # if q and media and media.lower() == 'true':
+            if q :
+                tweets = tweepy.Cursor(api.search_tweets, q=q, include_entities=True, tweet_mode='extended').items(limit)
                 
-                # print(tweet_list)
+                # print(tweets)
                 
                 for tweet in tweets:
                     print(tweet)
                     print("\n")
                     
-                    # tweet_list.append(tweet)
-                    tweet_list.append([tweet.id, tweet.user.screen_name, tweet.full_text])
-            
-                return HttpResponse(
-                    # json.dumps(tweet_list),
-                    tweet_list,
-                    status=status.HTTP_200_OK,
-                )
+                    tweet_list.append(tweet)
+                    # tweet_list.append([tweet.id, tweet.user.screen_name, tweet.full_text])
+                    
+            if q and media and media.lower() == 'false':
+                tweets = tweepy.Cursor(api.search_tweets, q=q, include_entities=False, tweet_mode='extended').items(limit)
+                
+                # print(tweets)
+                
+                for tweet in tweets:
+                    print(tweet)
+                    print("\n")
+                    
+                    tweet_list.append(tweet)
+                    # tweet_list.append([tweet.id, tweet.user.screen_name, tweet.full_text])
+                    
+            return HttpResponse(
+                # json.dumps(tweet_list),
+                tweet_list,
+                status=status.HTTP_200_OK,
+            )
             
         except Exception as e:
             return Response(
