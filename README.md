@@ -82,3 +82,12 @@ docker-compose up
 
 ## Visit  http://127.0.0.1:8089/
 
+
+<br>
+<br>
+
+
+# OR 
+## DON'T DO ALL THAT 
+## AND VISIT  http://141.145.208.211:8089/
+
