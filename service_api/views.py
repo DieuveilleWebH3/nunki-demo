@@ -68,13 +68,12 @@ class TwitterApiViewset(ViewSet):
     @swagger_auto_schema(
         manual_parameters=[q, media])
     
-    # def search(self, request, keyword, boolean, *args, **kwargs):
     def search(self, request, *args, **kwargs):
         q = request.query_params.get('q', None)
         media = request.query_params.get('media', None)
         tweet_list = []
         
-        limit = 1
+        limit = 5
         # limit = 20
 
         try:
@@ -106,6 +105,26 @@ class TwitterApiViewset(ViewSet):
             return HttpResponse(
                 # json.dumps(tweet_list),
                 tweet_list,
+                status=status.HTTP_200_OK,
+            )
+            
+        except Exception as e:
+            return Response(
+                f'Error found => [ERR]: {e}',
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+            
+    def users(self, request, user_id, *args, **kwargs):
+        user = {}
+        
+        try:
+            if user_id:
+                # using get_user with id 
+                user = api.get_user(user_id=user_id)
+
+            return HttpResponse(
+                # json.dumps(model_to_dict(user)),
+                user,
                 status=status.HTTP_200_OK,
             )
             
