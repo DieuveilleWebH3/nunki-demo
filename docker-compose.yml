@@ -17,10 +17,6 @@ services:
          - PYTHONUNBUFFERED=1
       command: bash -c "python3 /app/manage.py makemigrations && python3 /app/manage.py migrate && python3 /app/manage.py runserver 0.0.0.0:8089"
 
-      # Testing debug mode in development environment
-      # runserver --insecure
-      # command: bash -c "python3 /app/manage.py makemigrations && python3 /app/manage.py migrate && python3 /app/manage.py runserver --insecure 0.0.0.0:8089"
-
       deploy:
          resources:
            limits:

@@ -49,8 +49,3 @@ COPY . /app
 
 
 CMD ["python", "/app/manage.py", "runserver", "0.0.0.0:8089"]
-
-
-# Testing debug mode in development environment
-# runserver --insecure
-# CMD ["python", "/app/manage.py", "runserver --insecure", "0.0.0.0:8089"]
