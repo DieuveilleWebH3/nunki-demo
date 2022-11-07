@@ -86,8 +86,3 @@ docker-compose up
 <br>
 <br>
 
-
-# OR 
-## DON'T DO ALL THAT 
-## AND VISIT  http://141.145.208.211:8089/
-
